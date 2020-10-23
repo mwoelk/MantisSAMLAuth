@@ -67,12 +67,12 @@ class SAMLAuthPlugin extends MantisPlugin  {
 
 		# Passwords managed externally for all users
 		$t_flags->setCanUseStandardLogin( false );
-		$t_flags->setPasswordManagedExternallyMessage( 'Passwords are no more, you cannot change them!' );
+		$t_flags->setPasswordManagedExternallyMessage( 'Passwörter werden durch Google verwaltet!' );
 
 		# No one can use standard auth mechanism
 
 		# Override Login page and Logout Redirect
-		$t_flags->setCredentialsPage( helper_url_combine( plugin_page( 'login', /* redirect */ true ), 'username=' . $t_username ) );
+		$t_flags->setCredentialsPage( plugin_page( 'login', /* redirect */ true ) );
 		$t_flags->setLogoutRedirectPage( plugin_page( 'logout', /* redirect */ true ) );
 
 		# No long term session for identity provider to be able to kick users out.

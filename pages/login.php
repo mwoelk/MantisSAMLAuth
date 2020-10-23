@@ -19,16 +19,11 @@ if( !is_blank( $t_return ) ) {
 	$returnUrl = 'login_cookie_test.php?return=' . $t_return;
 }
 
-
-if (!isset($_SESSION['samlUserdata'])) {
-    $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
-} else if (isset($_GET['acs'])) {
+if (isset($_GET['acs'])) {
     if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
         $requestID = $_SESSION['AuthNRequestID'];
     } else {
         $requestID = null;
-        echo "ID was null";
-        die;
     }
 
     $samlAuth->processResponse($requestID);
@@ -73,6 +68,10 @@ if (!isset($_SESSION['samlUserdata'])) {
         echo '<p>', implode(', ', $errors), '</p>';
     }
 }
+
+if (!isset($_SESSION['samlUserdata'])) {
+    $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
+} 
 
 $email = $_SESSION['samlNameId'];
 
