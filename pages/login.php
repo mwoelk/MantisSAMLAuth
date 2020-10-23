@@ -55,7 +55,7 @@ if (isset($_GET['acs'])) {
     }
 }
 
-if (!session_get('samlUserdata'))) {
+if (!session_get('samlUserdata')) {
     die ("SESSION UNSET");
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } 
