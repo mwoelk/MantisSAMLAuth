@@ -7,23 +7,4 @@ require_once dirname(__DIR__).'/saml/saml.php';
 require_api( 'authentication_api.php' );
 
 # User is already logged out from Mantis
-$idpData = $samlSettings->getIdPData();
-if (isset($idpData['singleLogoutService']) && isset($idpData['singleLogoutService']['url'])) {
-    $sloUrl = $idpData['singleLogoutService']['url'];
-} else {
-    print_header_redirect( auth_login_page(), true, false );
-}
-
-if (isset($_SESSION['IdPSessionIndex']) && !empty($_SESSION['IdPSessionIndex'])) {
-    $logoutRequest = new OneLogin\Saml2\LogoutRequest($samlSettings, null, $_SESSION['IdPSessionIndex']);
-} else {
-    $logoutRequest = new OneLogin\Saml2\LogoutRequest($samlSettings);
-}
-
-$samlRequest = $logoutRequest->getRequest();
-
-$parameters = array('SAMLRequest' => $samlRequest);
-
-$url = OneLogin\Saml2\Utils::redirect($sloUrl, $parameters, true);
-
-print_header_redirect( $url, true, false );
+print_header_redirect( auth_login_page(), true, false );

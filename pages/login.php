@@ -20,8 +20,8 @@ if( !is_blank( $t_return ) ) {
 }
 
 if (isset($_GET['acs'])) {
-    if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
-        $requestID = $_SESSION['AuthNRequestID'];
+    if (session_get('AuthNRequestID')) {
+        $requestID = session_get('AuthNRequestID');
     } else {
         $requestID = null;
     }
@@ -43,37 +43,24 @@ if (isset($_GET['acs'])) {
     print_r( $samlAuth->getAttributes());
     die;
 
-    $_SESSION['samlUserdata'] = $samlAuth->getAttributes();
-    $_SESSION['samlNameId'] = $samlAuth->getNameId();
-    $_SESSION['samlNameIdFormat'] = $samlAuth->getNameIdFormat();
-    $_SESSION['samlNameIdNameQualifier'] = $samlAuth->getNameIdNameQualifier();
-    $_SESSION['samlNameIdSPNameQualifier'] = $samlAuth->getNameIdSPNameQualifier();
-    $_SESSION['samlSessionIndex'] = $samlAuth->getSessionIndex();
-    unset($_SESSION['AuthNRequestID']);
+    session_set('samlUserdata', $samlAuth->getAttributes());
+    session_set('samlNameId', $samlAuth->getNameId());
+    session_set('samlNameIdFormat', $samlAuth->getNameIdFormat());
+    session_set('samlNameIdNameQualifier', $samlAuth->getNameIdNameQualifier());
+    session_set('samlNameIdSPNameQualifier', $samlAuth->getNameIdSPNameQualifier());
+    session_set('samlSessionIndex', $samlAuth->getSessionIndex());
+    session_delete('AuthNRequestID');
     if (isset($_POST['RelayState']) && OneLogin\Saml2\Utils::getSelfURL() != $_POST['RelayState']) {
         $samlAuth->redirectTo($_POST['RelayState']);
     }
-} else if (isset($_GET['sls'])) {
-    if (isset($_SESSION) && isset($_SESSION['LogoutRequestID'])) {
-        $requestID = $_SESSION['LogoutRequestID'];
-    } else {
-        $requestID = null;
-    }
-
-    $samlAuth->processSLO(false, $requestID);
-    $errors = $samlAuth->getErrors();
-    if (empty($errors)) {
-		print_header_redirect( auth_logout_page() );
-    } else {
-        echo '<p>', implode(', ', $errors), '</p>';
-    }
 }
 
-if (!isset($_SESSION['samlUserdata'])) {
+if (!session_get('samlUserdata'))) {
+    die ("SESSION UNSET");
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } 
 
-$email = $_SESSION['samlNameId'];
+$email = session_get('samlNameId');
 
 echo $email;
 die;
