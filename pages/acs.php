@@ -41,9 +41,6 @@ if( !$user_id ) {
     # Create user
     $userData = session_get('samlUserdata', []);
 
-    print_r($userData);
-    die;
-
     $firstname = $userData['firstname'][0];
     $lastname = $userData['lastname'][0];
 
