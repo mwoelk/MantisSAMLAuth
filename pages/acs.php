@@ -44,11 +44,9 @@ if( !$user_id ) {
     $firstname = $userData['firstname'][0];
     $lastname = $userData['lastname'][0];
 
-    setlocale(LC_ALL, 'de_DE');
-    $safeFirst = iconv("UTF-8", "ASCII//TRANSLIT", $firstname);
-    $safeLast = iconv("UTF-8", "ASCII//TRANSLIT", $lastname);
-
-    $username = strtolower(substr($safeFirst,0,1) . $safeLast);
+    $username = str_replace('@', '_', $email);
+    $username = preg_replace('/[[:^print:]]/', '', $username);
+    $username = strtolower($username);
 
     user_create($username, random_bytes(20), $email, null, true, true, $firstname . ' ' . $lastname);
 
