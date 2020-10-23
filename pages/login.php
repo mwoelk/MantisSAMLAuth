@@ -12,9 +12,8 @@ $f_return = gpc_get_string( 'return', config_get( 'default_home_page' ) );
 
 $t_return = string_url( string_sanitize_url( $f_return ) );
 
-
-$returnUrl = config_get( 'default_home_page' );
 # Redirect to original page user wanted to access before authentication
+$returnUrl = config_get( 'default_home_page' );
 if( !is_blank( $t_return ) ) {
 	$returnUrl = 'login_cookie_test.php?return=' . $t_return;
 }
@@ -53,37 +52,18 @@ if (gpc_get_bool('acs', false)) {
     }
 }
 
+// Not logged in redirect to provider
 if (!session_get('samlUserdata', null)) {
-    die ("SESSION UNSET");
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } 
 
 $email = session_get('samlNameId', null);
 
-echo $email;
-die;
-
 $t_user_id = is_blank( $email ) ? false : user_get_id_by_email( $email );
 
 if( $t_user_id == false ) {
-	$t_query_args = array(
-		'error' => 1,
-		'username' => $email,
-	);
-
-	if( !is_blank( 'return' ) ) {
-		$t_query_args['return'] = $t_return;
-	}
-
-	if( $f_reauthenticate ) {
-		$t_query_args['reauthenticate'] = 1;
-	}
-
-	$t_query_text = http_build_query( $t_query_args, '', '&' );
-
-	$t_uri = auth_login_page( $t_query_text );
-
-	print_header_redirect( $t_uri );
+	echo "<p>Benutzer ist noch nicht registriert!</p>";
+    exit();
 }
 
 # Let user into MantisBT
