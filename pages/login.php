@@ -19,7 +19,7 @@ if( !is_blank( $t_return ) ) {
 	$returnUrl = 'login_cookie_test.php?return=' . $t_return;
 }
 
-if (isset($_GET['acs'])) {
+if (gpc_get_bool('acs', false)) {
     $requestID = session_get('AuthNRequestID', null);
 
     $samlAuth->processResponse($requestID);
