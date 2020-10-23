@@ -8,7 +8,7 @@ $returnUrl = string_url( string_sanitize_url( $returnUrl ) );
 
 if ($reauthenticate || !session_get('samlUserdata', null)) {
     $ssoUrl = $samlAuth->login(config_get_global( 'path' ) . $returnUrl, [], false, false, true);
-    $ssoUrl = 'https://accounts.google.com/AccountChooser?continue=' . string_url( string_sanitize_url( $ssoUrl ) );
+    $ssoUrl = 'https://accounts.google.com/AccountChooser?continue=' . string_url( $ssoUrl );
     print_header_redirect( $ssoUrl, true, false, true );
 } else {
     $email = session_get('samlNameId', null);
