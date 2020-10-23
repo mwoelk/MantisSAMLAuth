@@ -11,12 +11,13 @@ if ($reauthenticate || !session_get('samlUserdata', null)) {
     $ssoUrl = 'https://accounts.google.com/AccountChooser?continue=' . string_url( $ssoUrl );
     print_header_redirect( $ssoUrl, true, false, true );
 } else {
-    if(!session_get('samlUserdata', null) || empty($email)) {
+    $email = session_get('samlNameId', null);
+
+    if(empty($email)) {
         echo "<p>No userdata available</p>";
         exit();
     }
 
-    $email = session_get('samlNameId', null);
     $user_id = user_get_id_by_email( $email );
 
     # User does not exist
