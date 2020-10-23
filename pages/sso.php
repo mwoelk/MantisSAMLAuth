@@ -4,7 +4,7 @@ require_once dirname(__DIR__).'/saml/saml.php';
 
 $reauthenticate = gpc_get_bool( 'reauthenticate', false );
 $returnUrl = gpc_get_string( 'return', config_get( 'default_home_page' ) );
-$returnUrl = string_url( $returnUrl );
+$returnUrl = urldecode( $returnUrl );
 
 if ($reauthenticate || !session_get('samlUserdata', null)) {
     $ssoUrl = $samlAuth->login(config_get_global( 'path' ) . $returnUrl, [], false, false, true);
