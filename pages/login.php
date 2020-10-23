@@ -15,7 +15,7 @@ $t_return = string_url( string_sanitize_url( $f_return ) );
 # Redirect to original page user wanted to access before authentication
 $returnUrl = config_get( 'default_home_page' );
 if( !is_blank( $t_return ) ) {
-	$returnUrl = 'login_cookie_test.php?return=' . $t_return;
+	$returnUrl = $t_return;
 }
 
 if (gpc_get_bool('acs', false)) {
@@ -36,7 +36,7 @@ if (gpc_get_bool('acs', false)) {
         echo "<p>Not authenticated</p>";
         exit();
     }
-    
+
     session_set('samlUserdata', $samlAuth->getAttributes());
     session_set('samlNameId', $samlAuth->getNameId());
     session_set('samlNameIdFormat', $samlAuth->getNameIdFormat());
@@ -68,7 +68,7 @@ auth_login_user( $t_user_id );
 
 # Redirect to original page user wanted to access before authentication
 if( !is_blank( $t_return ) ) {
-	print_header_redirect( 'login_cookie_test.php?return=' . $t_return );
+	print_header_redirect( $t_return );
 }
 
 # If no return page, redirect to default page
