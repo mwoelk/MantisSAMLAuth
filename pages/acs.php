@@ -44,9 +44,7 @@ if( !$user_id ) {
     $firstname = $userData['firstname'][0];
     $lastname = $userData['lastname'][0];
 
-    $username = str_replace('@', '_', $email);
-    $username = preg_replace('/[[:^print:]]/', '', $username);
-    $username = strtolower($username);
+    $username = $email;
 
     user_create($username, random_bytes(20), $email, null, true, true, $firstname . ' ' . $lastname);
 
