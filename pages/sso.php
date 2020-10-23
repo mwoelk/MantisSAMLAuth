@@ -13,25 +13,25 @@ if ($reauthenticate || !session_get('samlUserdata', null)) {
 
     # User does not exist
     if( !$user_id ) {
-        echo "<p>Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
+        echo "<p>1 Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
         return false;
     }
 
     # check for disabled account
     if( !user_is_enabled( $user_id ) ) {
-        echo "<p>Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
+        echo "<p>2 Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
         return false;
     }
 
     # max. failed login attempts achieved...
     if( !user_is_login_request_allowed( $user_id ) ) {
-        echo "<p>Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
+        echo "<p>3 Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
         return false;
     }
 
     # check for anonymous login
     if( user_is_anonymous( $user_id ) ) {
-        echo "<p>Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
+        echo "<p>4 Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
         return false;
     }
 
