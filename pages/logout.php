@@ -15,15 +15,15 @@ if (isset($idpData['singleLogoutService']) && isset($idpData['singleLogoutServic
 }
 
 if (isset($_SESSION['IdPSessionIndex']) && !empty($_SESSION['IdPSessionIndex'])) {
-    $logoutRequest = new OneLogin_Saml2_LogoutRequest($samlSettings, null, $_SESSION['IdPSessionIndex']);
+    $logoutRequest = new OneLogin\Saml2\LogoutRequest($samlSettings, null, $_SESSION['IdPSessionIndex']);
 } else {
-    $logoutRequest = new OneLogin_Saml2_LogoutRequest($samlSettings);
+    $logoutRequest = new OneLogin\Saml2\LogoutRequest($samlSettings);
 }
 
 $samlRequest = $logoutRequest->getRequest();
 
 $parameters = array('SAMLRequest' => $samlRequest);
 
-$url = OneLogin_Saml2_Utils::redirect($sloUrl, $parameters, true);
+$url = OneLogin\Saml2\Utils::redirect($sloUrl, $parameters, true);
 
 print_header_redirect( $url, true, false );

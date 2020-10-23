@@ -42,7 +42,7 @@ if (!isset($_SESSION['samlUserdata'])) {
     $_SESSION['samlNameIdSPNameQualifier'] = $samlAuth->getNameIdSPNameQualifier();
     $_SESSION['samlSessionIndex'] = $samlAuth->getSessionIndex();
     unset($_SESSION['AuthNRequestID']);
-    if (isset($_POST['RelayState']) && OneLogin_Saml2_Utils::getSelfURL() != $_POST['RelayState']) {
+    if (isset($_POST['RelayState']) && OneLogin\Saml2\Utils::getSelfURL() != $_POST['RelayState']) {
         $samlAuth->redirectTo($_POST['RelayState']);
     }
 } else if (isset($_GET['sls'])) {
