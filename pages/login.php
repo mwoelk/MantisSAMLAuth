@@ -3,7 +3,7 @@
 # Licensed under the MIT license
 
 require_once( 'core.php' );
-require_once dirname(__DIR__).'/../saml/saml.php';
+require_once dirname(__DIR__).'../saml/saml.php';
 require_api( 'authentication_api.php' );
 require_api( 'user_api.php' );
 
