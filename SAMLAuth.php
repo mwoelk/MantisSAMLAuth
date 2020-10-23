@@ -90,7 +90,7 @@ class SAMLAuthPlugin extends MantisPlugin  {
 
 		# Enable re-authentication and use more aggressive timeout.
 		$t_flags->setReauthenticationEnabled( true );
-		$t_flags->setReauthenticationLifetime( 10 );
+		$t_flags->setReauthenticationLifetime( 120 );
 
 		return $t_flags;
 	}
