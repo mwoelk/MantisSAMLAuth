@@ -21,7 +21,7 @@ if( !is_blank( $t_return ) ) {
 
 
 if (!isset($_SESSION['samlUserdata'])) {
-    $samlAuth->login($returnUrl);
+    $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } else if (isset($_GET['acs'])) {
     if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
         $requestID = $_SESSION['AuthNRequestID'];
