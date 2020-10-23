@@ -5,14 +5,14 @@
 /**
  * Sample Auth plugin
  */
-class SampleAuthPlugin extends MantisPlugin  {
+class SAMLAuthPlugin extends MantisPlugin  {
 	/**
 	 * A method that populates the plugin information and minimum requirements.
 	 * @return void
 	 */
 	function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
+		$this->name = 'SAMLAuth';
+		$this->description = 'SAMLAuth Plugin';
 		$this->page = '';
 
 		$this->version = '0.1';

@@ -3,6 +3,7 @@
 # Licensed under the MIT license
 
 require_once( 'core.php' );
+require_once dirname(__DIR__).'/../saml/saml.php';
 require_api( 'authentication_api.php' );
 require_api( 'user_api.php' );
 
@@ -12,7 +13,53 @@ $f_return = gpc_get_string( 'return', config_get( 'default_home_page' ) );
 
 $t_return = string_url( string_sanitize_url( $f_return ) );
 
-# TODO: use custom authentication method here.
+if (!isset($_SESSION['samlUserdata'])) {
+    $samlAuth->login();
+} else if (isset($_GET['acs'])) {
+    if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
+        $requestID = $_SESSION['AuthNRequestID'];
+    } else {
+        $requestID = null;
+    }
+
+    $samlAuth->processResponse($requestID);
+
+    $errors = $samlAuth->getErrors();
+
+    if (!empty($errors)) {
+        echo '<p>',implode(', ', $errors),'</p>';
+    }
+
+    if (!$samlAuth->isAuthenticated()) {
+        echo "<p>Not authenticated</p>";
+        exit();
+    }
+
+    $_SESSION['samlUserdata'] = $samlAuth->getAttributes();
+    $_SESSION['samlNameId'] = $samlAuth->getNameId();
+    $_SESSION['samlNameIdFormat'] = $samlAuth->getNameIdFormat();
+    $_SESSION['samlNameIdNameQualifier'] = $samlAuth->getNameIdNameQualifier();
+    $_SESSION['samlNameIdSPNameQualifier'] = $samlAuth->getNameIdSPNameQualifier();
+    $_SESSION['samlSessionIndex'] = $samlAuth->getSessionIndex();
+    unset($_SESSION['AuthNRequestID']);
+    if (isset($_POST['RelayState']) && OneLogin_Saml2_Utils::getSelfURL() != $_POST['RelayState']) {
+        $samlAuth->redirectTo($_POST['RelayState']);
+    }
+} else if (isset($_GET['sls'])) {
+    if (isset($_SESSION) && isset($_SESSION['LogoutRequestID'])) {
+        $requestID = $_SESSION['LogoutRequestID'];
+    } else {
+        $requestID = null;
+    }
+
+    $samlAuth->processSLO(false, $requestID);
+    $errors = $samlAuth->getErrors();
+    if (empty($errors)) {
+		print_header_redirect( auth_logout_page() );
+    } else {
+        echo '<p>', implode(', ', $errors), '</p>';
+    }
+}
 
 $t_user_id = is_blank( $f_username ) ? false : user_get_id_by_name( $f_username );
 
