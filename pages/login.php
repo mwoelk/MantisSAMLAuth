@@ -27,6 +27,8 @@ if (!isset($_SESSION['samlUserdata'])) {
         $requestID = $_SESSION['AuthNRequestID'];
     } else {
         $requestID = null;
+        echo "ID was null";
+        die;
     }
 
     $samlAuth->processResponse($requestID);
