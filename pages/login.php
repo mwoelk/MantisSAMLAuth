@@ -20,11 +20,7 @@ if( !is_blank( $t_return ) ) {
 }
 
 if (isset($_GET['acs'])) {
-    if (session_get('AuthNRequestID')) {
-        $requestID = session_get('AuthNRequestID');
-    } else {
-        $requestID = null;
-    }
+    $requestID = session_get('AuthNRequestID', null);
 
     $samlAuth->processResponse($requestID);
 
@@ -55,12 +51,12 @@ if (isset($_GET['acs'])) {
     }
 }
 
-if (!session_get('samlUserdata')) {
+if (!session_get('samlUserdata', null)) {
     die ("SESSION UNSET");
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } 
 
-$email = session_get('samlNameId');
+$email = session_get('samlNameId', null);
 
 echo $email;
 die;
