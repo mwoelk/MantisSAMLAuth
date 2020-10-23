@@ -45,7 +45,7 @@ class SAMLAuthPlugin extends MantisPlugin  {
 
 		return '
 			<meta name="ssoUrl" content="' . plugin_page( 'sso', /* redirect */ true ) . '" />
-			<script type="text/javascript" src="plugins/SAMLAuth/pages/assets/js/plugin.js"></script>
+			<script type="text/javascript" src="'. plugin_file( 'plugin.js' ) .'"></script>
 		';
 	}
 
