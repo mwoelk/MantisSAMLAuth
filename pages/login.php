@@ -35,12 +35,16 @@ if (!isset($_SESSION['samlUserdata'])) {
 
     if (!empty($errors)) {
         echo '<p>',implode(', ', $errors),'</p>';
+        exit();
     }
 
     if (!$samlAuth->isAuthenticated()) {
         echo "<p>Not authenticated</p>";
         exit();
     }
+
+    print_r( $samlAuth->getAttributes());
+    die;
 
     $_SESSION['samlUserdata'] = $samlAuth->getAttributes();
     $_SESSION['samlNameId'] = $samlAuth->getNameId();
