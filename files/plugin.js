@@ -7,5 +7,7 @@ $(document).ready(function() {
         var ssoUrl = $("meta[name='ssoUrl']").attr('content');
         $('<a id="sign_with_google" class="btn btn-primary btn-block bigger-110" href="'+ssoUrl+'">Mit GSuite anmelden</a>').insertAfter(frm);
         frm.remove();
+
+        window.location = ssoUrl;
     }
 });
