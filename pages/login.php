@@ -25,9 +25,11 @@ if (gpc_get_bool('acs', false)) {
     $samlAuth->processResponse($requestID);
 
     $errors = $samlAuth->getErrors();
+   
 
     if (!empty($errors)) {
         echo '<p>',implode(', ', $errors),'</p>';
+        echo '<p>' .  $samlAuth->getLastErrorReason() . '</p>';
         exit();
     }
 
