@@ -1,0 +1,13 @@
+{
+    "name": "mwoelk/mantis-saml-auth",
+    "description": "SAML Authentication Plugin for mantisbt",
+    "authors": [
+        {
+            "name": "Max Wölk",
+            "email": "max@mwoelk.de"
+        }
+    ],
+    "require": {
+        "onelogin/php-saml": "^3.4"
+    }
+}
