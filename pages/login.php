@@ -7,14 +7,21 @@ require_once dirname(__DIR__).'/saml/saml.php';
 require_api( 'authentication_api.php' );
 require_api( 'user_api.php' );
 
-$f_username = gpc_get( 'username' );
 $f_reauthenticate = gpc_get_bool( 'reauthenticate', false );
 $f_return = gpc_get_string( 'return', config_get( 'default_home_page' ) );
 
 $t_return = string_url( string_sanitize_url( $f_return ) );
 
+
+$returnUrl = config_get( 'default_home_page' );
+# Redirect to original page user wanted to access before authentication
+if( !is_blank( $t_return ) ) {
+	$returnUrl = 'login_cookie_test.php?return=' . $t_return;
+}
+
+
 if (!isset($_SESSION['samlUserdata'])) {
-    $samlAuth->login();
+    $samlAuth->login($returnUrl);
 } else if (isset($_GET['acs'])) {
     if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
         $requestID = $_SESSION['AuthNRequestID'];
@@ -61,12 +68,17 @@ if (!isset($_SESSION['samlUserdata'])) {
     }
 }
 
-$t_user_id = is_blank( $f_username ) ? false : user_get_id_by_name( $f_username );
+$email = $_SESSION['samlNameId'];
+
+echo $email;
+die;
+
+$t_user_id = is_blank( $email ) ? false : user_get_id_by_email( $email );
 
 if( $t_user_id == false ) {
 	$t_query_args = array(
 		'error' => 1,
-		'username' => $f_username,
+		'username' => $email,
 	);
 
 	if( !is_blank( 'return' ) ) {
