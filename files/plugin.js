@@ -6,8 +6,4 @@ $(document).ready(function() {
     var ssoUrl = $("meta[name='ssoUrl']").attr('content');
 
     $('<a id="sign_with_google" class="btn btn-primary btn-sm bigger-110" href="'+ssoUrl+'">Mit GSuite anmelden</a>').appendTo(frm);
-
-    frm.children('#sign_with_google').on('click', function(){
-        return false;
-    });
 });
