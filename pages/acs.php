@@ -26,18 +26,32 @@ session_set('samlNameIdNameQualifier', $samlAuth->getNameIdNameQualifier());
 session_set('samlNameIdSPNameQualifier', $samlAuth->getNameIdSPNameQualifier());
 session_set('samlSessionIndex', $samlAuth->getSessionIndex());
 
-if(!session_get('samlUserdata', null)) {
+$email = $samlAuth->getNameId();
+
+if(!session_get('samlUserdata', null) || empty($email)) {
     echo "<p>No userdata available</p>";
     exit();
 }
 
-$email = $samlAuth->getNameId();
+
 $user_id = user_get_id_by_email( $email );
 
 # User does not exist
 if( !$user_id ) {
-    echo "<p>1 Email address not registered. Please register new account first. <br/> <a href='/login_page.php'>Login</a>";
-    return false;
+    # Create user
+    $userData = session_get('samlUserdata', []);
+
+    $firstname = $userData['firstname'];
+    $lastname = $userData['lastname'];
+
+    $safeFirst = iconv("UTF-8", "ASCII//TRANSLIT", $firstname);
+    $safeLast = iconv("UTF-8", "ASCII//TRANSLIT", $lastname);
+
+    $username = substr($safeFirst,0,1) . $safeLast;
+
+    user_create($username, random_bytes(20), $email, null, true, true, $firstname . ' ' . $lastname);
+
+    $user_id = user_get_id_by_email( $email );
 }
 
 # check for disabled account
