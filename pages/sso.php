@@ -10,6 +10,7 @@ if ($reauthenticate || !session_get('samlUserdata', null)) {
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 } else {
     $email = session_get('samlNameId', null);
+    $user_id = user_get_id_by_email( $email );
 
     # User does not exist
     if( !$user_id ) {

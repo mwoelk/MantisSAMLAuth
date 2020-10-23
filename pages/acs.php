@@ -32,8 +32,7 @@ if(!session_get('samlUserdata', null)) {
 }
 
 $email = $samlAuth->getNameId();
-
-$user_id = user_get_id_by_email( $userData->email );
+$user_id = user_get_id_by_email( $email );
 
 # User does not exist
 if( !$user_id ) {
