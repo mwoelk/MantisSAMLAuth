@@ -44,8 +44,8 @@ if( !$user_id ) {
     print_r($userData);
     die;
 
-    $firstname = $userData['firstname'];
-    $lastname = $userData['lastname'];
+    $firstname = $userData['firstname'][0];
+    $lastname = $userData['lastname'][0];
 
     $safeFirst = iconv("UTF-8", "ASCII//TRANSLIT", $firstname);
     $safeLast = iconv("UTF-8", "ASCII//TRANSLIT", $lastname);
