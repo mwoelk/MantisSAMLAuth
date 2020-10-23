@@ -36,10 +36,7 @@ if (gpc_get_bool('acs', false)) {
         echo "<p>Not authenticated</p>";
         exit();
     }
-
-    print_r( $samlAuth->getAttributes());
-    die;
-
+    
     session_set('samlUserdata', $samlAuth->getAttributes());
     session_set('samlNameId', $samlAuth->getNameId());
     session_set('samlNameIdFormat', $samlAuth->getNameIdFormat());
