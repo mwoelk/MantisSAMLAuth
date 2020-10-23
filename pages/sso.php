@@ -10,7 +10,7 @@ if ($reauthenticate || !session_get('samlUserdata', null)) {
     $samlAuth->login(config_get_global( 'path' ) . $returnUrl);
 
     $ssoAuthUrl = $samlAuth->login($returnUrl, array(), false, false, true);
-    session_set('AuthNRequestID') = $samlAuth->getLastRequestID();
+    session_set('AuthNRequestID', $samlAuth->getLastRequestID());
 
     print_header_redirect( 'https://accounts.google.com/AccountChooser?continue=' . $ssoAuthUrl, true, false, true );
 } else {
