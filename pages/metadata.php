@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__).'../saml/saml.php';
+require_once dirname(__DIR__).'/saml/saml.php';
 
 try {
     #$auth = new OneLogin_Saml2_Auth($settingsInfo);

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__).'../vendor/php-saml/_toolkit_loader.php';
+require_once dirname(__DIR__).'/vendor/php-saml/_toolkit_loader.php';
 require_once dirname(__DIR__).'settings.php';
 
 $samlAuth = new OneLogin_Saml2_Auth($settingsInfo);
